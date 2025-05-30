@@ -1,0 +1,50 @@
+# VSCode settings
+.vscode/
+
+# Build artifacts
+*.obj
+*.exe
+*.dll
+*.lib
+*.pdb
+*.ilk
+*.exp
+*.idb
+
+# CL intermediate files
+*.tlog/
+*.log
+*.lastbuildstate
+*.sdf
+*.ipch
+*.pch
+
+# Build folders
+build/
+Build/
+out/
+Out/
+Debug/
+Release/
+x64/
+x86/
+
+# Temporary files
+*.tmp
+*.bak
+*~
+*.user
+*.suo
+
+# CMake cache
+CMakeFiles/
+CMakeCache.txt
+cmake_install.cmake
+Makefile
+
+# Visual Studio Code workspace files
+*.code-workspace
+
+# Windows system files
+Thumbs.db
+Desktop.ini
