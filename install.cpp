@@ -21,7 +21,6 @@ class Installer {
                 printf("Create directory return value is %d\n", createDirectoryVal);
                 if (createDirectoryVal == 0) {
                     throw runtime_error("Create directory failed");
-                    return false;
                 }
                 hasCreatedDestDir = true;
                 return true;
@@ -32,7 +31,6 @@ class Installer {
             }
             // Path exists but it not a directory
             throw runtime_error("Dest path exists but it not a directory");
-            return false;
         }
         void copyFiles() {
             for (const auto& fileName : fileNames) {
