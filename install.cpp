@@ -12,6 +12,7 @@ class Installer {
         wstring destDirectory;
         vector<wstring> fileNames;
         bool hasCreatedDestDir = false;
+        bool shouldRunCleanup = false;
         bool ensureDestDirCreated() {
             DWORD ftyp = GetFileAttributesW(destDirectory.c_str());
             if (ftyp == INVALID_FILE_ATTRIBUTES) {
@@ -60,6 +61,7 @@ class Installer {
                 int val = RemoveDirectoryW(destDirectory.c_str());
                 printf("Remove directory return value is %d\n", val);
             }
+            shouldRunCleanup = false;
         }
     
     public:
@@ -68,10 +70,16 @@ class Installer {
             fileNames = files;
             destDirectory = dstDir;
         }
+        ~Installer() {
+            if (shouldRunCleanup)
+                cleanDest();
+        }
         bool install() {
+            shouldRunCleanup = true;
             try {
                 ensureDestDirCreated();
                 copyFiles();
+                shouldRunCleanup = false;
                 return true;
             }
             catch (...) {
