@@ -3,15 +3,14 @@
 #include <stdio.h>
 #include <string>
 #include <stdexcept>
+#include <vector>
 using namespace std;
-
-const int FILES_COUNT = 3;
 
 class Installer {
     private:
         wstring srcDirectory;
         wstring destDirectory;
-        wstring files[FILES_COUNT] = { L"file1.txt", L"file2.txt", L"file3.txt" };
+        vector<wstring> fileNames;
         bool hasCreatedDestDir = false;
         bool ensureDestDirCreated() {
             DWORD ftyp = GetFileAttributesW(destDirectory.c_str());
@@ -35,9 +34,9 @@ class Installer {
             return false;
         }
         void copyFiles() {
-            for (int i = 0; i < FILES_COUNT; i++) {
-                wstring srcPath = srcDirectory + L"\\" + files[i];
-                wstring destPath = destDirectory + L"\\" + files[i];
+            for (int i = 0; i < fileNames.size(); i++) {
+                wstring srcPath = srcDirectory + L"\\" + fileNames[i];
+                wstring destPath = destDirectory + L"\\" + fileNames[i];
                 printf("Copying file %ls to %ls\n", srcPath.c_str(), destPath.c_str());
                 int copyFileVal = CopyFileW(srcPath.c_str(), destPath.c_str(), false);
                 printf("Copy file return value is %d\n", copyFileVal);
@@ -48,8 +47,8 @@ class Installer {
         }
         void cleanDest() {
             printf("Starting cleanup\n");
-            for (int i = 0; i < 3; i++) {
-                wstring destPath = destDirectory + L"\\" + files[i];
+            for (int i = 0; i < fileNames.size(); i++) {
+                wstring destPath = destDirectory + L"\\" + fileNames[i];
                 // Remove the readonly flag for deleting the file
                 SetFileAttributesW(destPath.c_str(), GetFileAttributesW(destPath.c_str()) & ~FILE_ATTRIBUTE_READONLY);
                 printf("Deleting file %ls\n", destPath.c_str());
@@ -65,8 +64,9 @@ class Installer {
         }
     
     public:
-        Installer(const wstring& srcDir, const wstring& dstDir) {
+        Installer(const wstring& srcDir, vector<wstring> files, const wstring& dstDir) {
             srcDirectory = srcDir;
+            fileNames = files;
             destDirectory = dstDir;
         }
         bool install() {
@@ -86,8 +86,9 @@ int wmain(int argc, TCHAR* argv[])
 {
     wstring srcDirectory = L"C:\\Users\\Ophir\\Documents\\tmp\\tests\\src";
     wstring destDirectory = L"C:\\Users\\Ophir\\Documents\\tmp\\tests\\dst";
+    vector<wstring> files = { L"file1.txt", L"file2.txt", L"file3.txt" };
 
-    Installer installer = Installer(srcDirectory, destDirectory);
+    Installer installer = Installer(srcDirectory, files, destDirectory);
     if (installer.install()) {
         return 0;
     }
