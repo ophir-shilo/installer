@@ -63,7 +63,7 @@ class Installer {
         }
     
     public:
-        Installer(const wstring& srcDir, vector<wstring> files, const wstring& dstDir) {
+        Installer(const wstring& srcDir, const vector<wstring>& files, const wstring& dstDir) {
             srcDirectory = srcDir;
             fileNames = files;
             destDirectory = dstDir;
@@ -89,9 +89,9 @@ class Installer {
 
 int wmain(int argc, TCHAR* argv[])
 {
-    wstring srcDirectory = L"C:\\Users\\Ophir\\Documents\\tmp\\tests\\src";
-    wstring destDirectory = L"C:\\Users\\Ophir\\Documents\\tmp\\tests\\dst";
-    vector<wstring> files = { L"file1.txt", L"file2.txt", L"file3.txt" };
+    const wstring srcDirectory = L"C:\\Users\\Ophir\\Documents\\tmp\\tests\\src";
+    const wstring destDirectory = L"C:\\Users\\Ophir\\Documents\\tmp\\tests\\dst";
+    const vector<wstring> files = { L"file1.txt", L"file2.txt", L"file3.txt" };
 
     Installer installer = Installer(srcDirectory, files, destDirectory);
     if (installer.install()) {
