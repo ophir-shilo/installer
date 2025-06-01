@@ -34,9 +34,9 @@ class Installer {
             return false;
         }
         void copyFiles() {
-            for (int i = 0; i < fileNames.size(); i++) {
-                wstring srcPath = srcDirectory + L"\\" + fileNames[i];
-                wstring destPath = destDirectory + L"\\" + fileNames[i];
+            for (const auto& fileName : fileNames) {
+                wstring srcPath = srcDirectory + L"\\" + fileName;
+                wstring destPath = destDirectory + L"\\" + fileName;
                 printf("Copying file %ls to %ls\n", srcPath.c_str(), destPath.c_str());
                 int copyFileVal = CopyFileW(srcPath.c_str(), destPath.c_str(), false);
                 printf("Copy file return value is %d\n", copyFileVal);
@@ -47,19 +47,18 @@ class Installer {
         }
         void cleanDest() {
             printf("Starting cleanup\n");
-            for (int i = 0; i < fileNames.size(); i++) {
-                wstring destPath = destDirectory + L"\\" + fileNames[i];
+            for (const auto& fileName : fileNames) {
+                wstring destPath = destDirectory + L"\\" + fileName;
                 // Remove the readonly flag for deleting the file
                 SetFileAttributesW(destPath.c_str(), GetFileAttributesW(destPath.c_str()) & ~FILE_ATTRIBUTE_READONLY);
                 printf("Deleting file %ls\n", destPath.c_str());
                 int val = DeleteFileW(destPath.c_str());
-                printf("Return value is %d\n", val);
-                // TODO: Handle failures
+                printf("Delete file return value is %d\n", val);
             }
             if (hasCreatedDestDir) {
                 printf("Deleting directory %ls\n", destDirectory.c_str());
                 int val = RemoveDirectoryW(destDirectory.c_str());
-                printf("Return value is %d\n", val);
+                printf("Remove directory return value is %d\n", val);
             }
         }
     
