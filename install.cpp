@@ -89,9 +89,18 @@ class Installer {
 
 int wmain(int argc, TCHAR* argv[])
 {
-    const wstring srcDirectory = L"C:\\Users\\Ophir\\Documents\\tmp\\tests\\src";
-    const wstring destDirectory = L"C:\\Users\\Ophir\\Documents\\tmp\\tests\\dst";
-    const vector<wstring> files = { L"file1.txt", L"file2.txt", L"file3.txt" };
+    if (argc != 6) {
+        printf("Usage: installer <source_dir> <file1> <file2> <file3> <destination_dir>\n");
+        return 1;
+    }
+
+    std::wstring srcDir = argv[1];
+    std::vector<std::wstring> files = { argv[2], argv[3], argv[4] };
+    std::wstring dstDir = argv[5];
+
+    const wstring srcDirectory = argv[1];
+    const vector<wstring> files = { argv[2], argv[3], argv[4] };
+    const wstring destDirectory = argv[5];
 
     Installer installer = Installer(srcDirectory, files, destDirectory);
     if (installer.install()) {
