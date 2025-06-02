@@ -6,6 +6,8 @@
 #include <vector>
 using namespace std;
 
+const int FILE_COUNT = 3;
+
 class Installer {
     private:
         wstring srcDirectory;
@@ -89,14 +91,16 @@ class Installer {
 
 int wmain(int argc, TCHAR* argv[])
 {
-    if (argc != 6) {
-        printf("Usage: installer <source_dir> <file1> <file2> <file3> <destination_dir>\n");
+    if (argc != FILE_COUNT + 3) {
+        printf("Usage: installer <source_dir> <file1> <file2> ... <destination_dir>, With %d files.", FILE_COUNT);
         return 1;
     }
 
     const wstring srcDirectory = argv[1];
-    const vector<wstring> files = { argv[2], argv[3], argv[4] };
-    const wstring destDirectory = argv[5];
+    vector<wstring> files;
+    for (int i = 0; i < FILE_COUNT; i++)
+        files.push_back(argv[i + 2]);
+    const wstring destDirectory = argv[FILE_COUNT + 2];
 
     Installer installer = Installer(srcDirectory, files, destDirectory);
     if (installer.install()) {
