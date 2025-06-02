@@ -97,9 +97,7 @@ int wmain(int argc, TCHAR* argv[])
     }
 
     const wstring srcDirectory = argv[1];
-    vector<wstring> files;
-    for (int i = 0; i < FILE_COUNT; i++)
-        files.push_back(argv[i + 2]);
+    const vector<wstring> files(argv + 2, argv + 2 + FILE_COUNT);
     const wstring destDirectory = argv[FILE_COUNT + 2];
 
     Installer installer = Installer(srcDirectory, files, destDirectory);
