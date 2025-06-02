@@ -94,10 +94,6 @@ int wmain(int argc, TCHAR* argv[])
         return 1;
     }
 
-    std::wstring srcDir = argv[1];
-    std::vector<std::wstring> files = { argv[2], argv[3], argv[4] };
-    std::wstring dstDir = argv[5];
-
     const wstring srcDirectory = argv[1];
     const vector<wstring> files = { argv[2], argv[3], argv[4] };
     const wstring destDirectory = argv[5];
